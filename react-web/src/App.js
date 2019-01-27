@@ -6,6 +6,7 @@ import AppSearch from './components/app-search';
 import './App.css';
 
 class App extends Component {
+	static APP_NAME = 'Ama Sua';
 	static POLITICIAN_URL = `${process.env.REACT_APP_ALGOLIA_BASE_URL}/${
 		process.env.REACT_APP_ALGOLIA_POLITICIANS_URL
 	}`;
@@ -44,7 +45,7 @@ class App extends Component {
 		if (this.state.currentRouteId === 'profile') {
 			webId = window.location.pathname.split('/politicians/')[1];
 			politician = json.hits.find(p => p.webId === webId);
-			window.document.title = `Ama Sua - ${politician.fullName}`;
+			window.document.title = `${App.APP_NAME} - ${politician.fullName}`;
 		}
 		this.setState({
 			politicians: json.hits,
@@ -55,7 +56,7 @@ class App extends Component {
 	onClick = (e, pol) => {
 		if (pol) {
 			e.preventDefault();
-			const title = `Ama Sua - ${pol.fullName}`;
+			const title = `${App.APP_NAME} - ${pol.fullName}`;
 			window.history.pushState(
 				{ id: pol.webId },
 				title,
@@ -70,10 +71,12 @@ class App extends Component {
 	};
 
 	onClickProfile = () => {
+		const title = App.APP_NAME;
 		this.setState({
 			currentRouteId: 'home',
 		});
-		window.document.title = 'Ama Sua';
+		window.history.pushState(null, title, '/');
+		window.document.title = title;
 	};
 
 	onSubmit = async (e, search) => {
