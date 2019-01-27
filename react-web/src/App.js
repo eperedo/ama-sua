@@ -40,28 +40,40 @@ class App extends Component {
 		};
 		const json = await this.fetchPoliticians();
 		let webId;
+		let politician;
 		if (this.state.currentRouteId === 'profile') {
 			webId = window.location.pathname.split('/politicians/')[1];
+			politician = json.hits.find(p => p.webId === webId);
+			window.document.title = `Ama Sua - ${politician.fullName}`;
 		}
 		this.setState({
 			politicians: json.hits,
-			currentPolitician: webId ? json.hits.find(p => p.webId === webId) : null,
+			currentPolitician: webId ? politician : null,
 		});
 	}
 
 	onClick = (e, pol) => {
-		e.preventDefault();
-		const title = `Ama Sua - ${pol.fullName}`;
-		window.history.pushState(
-			{ id: pol.webId },
-			title,
-			`/politicians/${pol.webId}`,
-		);
+		if (pol) {
+			e.preventDefault();
+			const title = `Ama Sua - ${pol.fullName}`;
+			window.history.pushState(
+				{ id: pol.webId },
+				title,
+				`/politicians/${pol.webId}`,
+			);
+			this.setState({
+				currentRouteId: 'profile',
+				currentPolitician: pol,
+			});
+			window.document.title = title;
+		}
+	};
+
+	onClickProfile = () => {
 		this.setState({
-			currentRouteId: 'profile',
-			currentPolitician: pol,
+			currentRouteId: 'home',
 		});
-		window.document.title = title;
+		window.document.title = 'Ama Sua';
 	};
 
 	onSubmit = async (e, search) => {
@@ -85,7 +97,10 @@ class App extends Component {
 						onClick={this.onClick}
 					/>
 				) : (
-					<PoliticiansProfile {...this.state.currentPolitician} />
+					<PoliticiansProfile
+						onClickProfile={this.onClickProfile}
+						{...this.state.currentPolitician}
+					/>
 				)}
 				<AppNavBar />
 			</div>

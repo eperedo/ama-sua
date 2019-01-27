@@ -38,7 +38,10 @@ function PoliticianProfile(props) {
 	];
 	return (
 		<section className="politicians-profile">
-			<PoliticiansProfileHeader {...props} />
+			<PoliticiansProfileHeader
+				onClickProfile={props.onClickProfile}
+				{...props}
+			/>
 			<AppListItem items={items} />
 		</section>
 	);

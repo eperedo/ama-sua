@@ -3,6 +3,7 @@
 	--fontTitle: 24px;
 	--fontSubTitle: 20px;
 	--fontDescription: 18px;
+	--fontHeader: 32px;
 	--spaceDefault: 15px;
 	--spaceMedium: 30px;
 	--primaryColor: #000;
@@ -53,6 +54,12 @@
 	padding: var(--spaceDefault);
 	font-family: var(--fontFamilyDefault);
 	width: 100%;
+}
+
+.back-arrow {
+	cursor: pointer;
+	font-size: var(--fontHeader);
+	position: absolute;
 }
 
 .politician-item {

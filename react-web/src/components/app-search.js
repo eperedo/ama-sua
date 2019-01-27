@@ -6,7 +6,6 @@ function AppSearch(props) {
 		<div className="app-search">
 			<form onSubmit={e => props.onSubmit(e, searchTerm)}>
 				<input
-					autoFocus
 					className="app-search-input"
 					placeholder="Buscar por nombre, ciudad o bancada.."
 					onChange={e => {
