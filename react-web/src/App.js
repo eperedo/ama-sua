@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import PoliticiansList from './politicians/politicians-list';
 import PoliticiansProfile from './politicians/politicians-profile';
+import AppNavBar from './components/app-nav-bar';
 import './App.css';
 
 class App extends Component {
 	static POLITICIAN_URL = `${process.env.REACT_APP_ALGOLIA_BASE_URL}/${
 		process.env.REACT_APP_ALGOLIA_POLITICIANS_URL
 	}`;
+	static POLITICIANS = [];
 
 	state = {
 		currentRouteId: window.location.pathname === '/' ? 'home' : 'profile',
@@ -40,6 +42,7 @@ class App extends Component {
 			},
 		});
 		const json = await response.json();
+		App.POLITICIANS = json;
 		let webId;
 		if (this.state.currentRouteId === 'profile') {
 			webId = window.location.pathname.split('/politicians/')[1];
@@ -73,6 +76,7 @@ class App extends Component {
 				) : (
 					<PoliticiansProfile {...this.state.currentPolitician} />
 				)}
+				<AppNavBar />
 			</div>
 		);
 	}

@@ -25,6 +25,29 @@
 	padding: var(--spaceDefault);
 }
 
+.app-navbar {
+	background-color: var(--secondaryColor);
+	bottom: 0;
+	border-top: 1px solid black;
+	position: fixed;
+	width: 100%;
+}
+
+.app-navbar-list {
+	display: flex;
+	justify-content: center;
+	list-style-type: none;
+	padding: 0;
+}
+
+.app-navbar-list-item:not(:last-child) {
+	border-right: 1px solid black;
+}
+
+.app-navbar-list-item {
+	min-width: 100px;
+}
+
 .politician-item {
 	font-size: var(--fontTitle);
 	padding: var(--spaceDefault);
