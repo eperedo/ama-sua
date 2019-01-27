@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PoliticiansList from './politicians/politicians-list';
 import PoliticiansProfile from './politicians/politicians-profile';
 import AppNavBar from './components/app-nav-bar';
 import AppSearch from './components/app-search';
+import AppFaq from './components/app-faq';
 import './App.css';
 
 class App extends Component {
@@ -11,8 +12,19 @@ class App extends Component {
 		process.env.REACT_APP_ALGOLIA_POLITICIANS_URL
 	}`;
 
+	static getRoute() {
+		const { pathname } = window.location;
+		if (pathname === '/') {
+			return 'home';
+		} else if (pathname === '/faq') {
+			return 'faq';
+		} else {
+			return 'profile';
+		}
+	}
+
 	state = {
-		currentRouteId: window.location.pathname === '/' ? 'home' : 'profile',
+		currentRouteId: App.getRoute(),
 		currentPolitician: null,
 		politicians: [],
 	};
@@ -70,9 +82,18 @@ class App extends Component {
 		}
 	};
 
-	onClickNavBar = e => {
+	onClickNavBar = (e, { id }) => {
 		e.preventDefault();
-		this.onClickProfile();
+		if (id === 'home') {
+			this.onClickProfile();
+		} else {
+			const title = `${App.APP_NAME} - Preguntas Frecuentes`;
+			this.setState({
+				currentRouteId: 'faq',
+			});
+			window.history.pushState(null, title, '/faq');
+			window.document.title = title;
+		}
 	};
 
 	onClickProfile = () => {
@@ -92,25 +113,36 @@ class App extends Component {
 		});
 	};
 	render() {
-		return (
-			<div className="App">
-				{this.state.currentRouteId === 'home' ? (
+		let view;
+		if (this.state.currentRouteId === 'home') {
+			view = (
+				<Fragment>
 					<AppSearch onSubmit={this.onSubmit} />
-				) : (
-					''
-				)}
-				{this.state.currentRouteId === 'home' ? (
 					<PoliticiansList
 						politicians={this.state.politicians}
 						onClick={this.onClick}
 					/>
-				) : (
+				</Fragment>
+			);
+		} else if (this.state.currentRouteId === 'faq') {
+			view = (
+				<Fragment>
+					<AppFaq />
+				</Fragment>
+			);
+		} else {
+			view = (
+				<Fragment>
 					<PoliticiansProfile
 						onClickProfile={this.onClickProfile}
 						{...this.state.currentPolitician}
 					/>
-				)}
-				<AppNavBar onClickNavBar={this.onClickNavBar} />
+				</Fragment>
+			);
+		}
+		return (
+			<div className="App">
+				{view} <AppNavBar onClickNavBar={this.onClickNavBar} />
 			</div>
 		);
 	}

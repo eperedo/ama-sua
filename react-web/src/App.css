@@ -30,14 +30,15 @@
 	background-color: var(--secondaryColor);
 	bottom: 0;
 	border-top: 1px solid black;
-	position: fixed;
-	width: 100%;
+	padding: var(--spaceDefault);
+	position: sticky;
 }
 
 .app-navbar-list {
 	display: flex;
 	justify-content: center;
 	list-style-type: none;
+	margin: 0;
 	padding: 0;
 }
 
@@ -47,6 +48,16 @@
 
 .app-navbar-list-item {
 	min-width: 100px;
+}
+
+.app-questions {
+	display: flex;
+	flex-direction: column;
+}
+
+.app-questions-item {
+	padding: var(--spaceDefault);
+	text-align: left;
 }
 
 .app-search-input {
@@ -90,4 +101,14 @@
 	background-color: var(--primaryColor);
 	color: var(--secondaryColor);
 	padding: var(--spaceDefault);
+}
+
+.title {
+	font-family: var(--fontFamilyDefault);
+	font-size: var(--fontTitle);
+}
+
+.subtitle {
+	font-family: var(--fontFamilyDefault);
+	font-size: var(--fontSubTitle);
 }
