@@ -1,10 +1,12 @@
-import React, { Component, Fragment } from 'react';
-import PoliticiansList from './politicians/politicians-list';
+import React, { Component, Fragment, Suspense } from 'react';
 import PoliticiansProfile from './politicians/politicians-profile';
 import AppNavBar from './components/app-nav-bar';
 import AppSearch from './components/app-search';
 import AppFaq from './components/app-faq';
 import './App.css';
+const PoliticiansList = React.lazy(() =>
+	import('./politicians/politicians-list'),
+);
 
 class App extends Component {
 	static APP_NAME = 'Ama Sua';
@@ -118,10 +120,12 @@ class App extends Component {
 			return (
 				<Fragment>
 					<AppSearch onSubmit={this.onSubmit} />
-					<PoliticiansList
-						politicians={this.state.politicians}
-						onClick={this.onClick}
-					/>
+					<Suspense fallback={<div>Cargando...</div>}>
+						<PoliticiansList
+							politicians={this.state.politicians}
+							onClick={this.onClick}
+						/>
+					</Suspense>
 				</Fragment>
 			);
 		} else if (this.state.currentRouteId === 'faq') {
