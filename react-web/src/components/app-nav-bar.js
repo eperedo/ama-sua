@@ -1,6 +1,6 @@
 import React from 'react';
 
-function AppNavBar() {
+function AppNavBar(props) {
 	const items = [
 		{
 			id: 1,
@@ -21,7 +21,9 @@ function AppNavBar() {
 				{items.map(item => {
 					return (
 						<li key={item.id} className="app-navbar-list-item">
-							<a href={item.href}>{item.text}</a>
+							<a onClick={props.onClickNavBar} href={item.href}>
+								{item.text}
+							</a>
 						</li>
 					);
 				})}

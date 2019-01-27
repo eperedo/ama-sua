@@ -70,6 +70,11 @@ class App extends Component {
 		}
 	};
 
+	onClickNavBar = e => {
+		e.preventDefault();
+		this.onClickProfile();
+	};
+
 	onClickProfile = () => {
 		const title = App.APP_NAME;
 		this.setState({
@@ -105,7 +110,7 @@ class App extends Component {
 						{...this.state.currentPolitician}
 					/>
 				)}
-				<AppNavBar />
+				<AppNavBar onClickNavBar={this.onClickNavBar} />
 			</div>
 		);
 	}
