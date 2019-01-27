@@ -48,8 +48,16 @@
 	min-width: 100px;
 }
 
+.app-search-input {
+	border: 1px solid black;
+	padding: var(--spaceDefault);
+	font-family: var(--fontFamilyDefault);
+	width: 100%;
+}
+
 .politician-item {
 	font-size: var(--fontTitle);
+	margin-bottom: var(--spaceDefault);
 	padding: var(--spaceDefault);
 }
 
@@ -59,6 +67,11 @@
 
 .politician-item-sub-title {
 	font-size: var(--fontSubTitle);
+}
+
+.politician-list {
+	display: flex;
+	flex-direction: column;
 }
 
 .politicians-profile-additional {
