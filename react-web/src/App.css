@@ -2,7 +2,11 @@
 	--fontFamilyDefault: 'Courier New', Courier, monospace;
 	--fontTitle: 24px;
 	--fontSubTitle: 20px;
+	--fontDescription: 18px;
 	--spaceDefault: 15px;
+	--spaceMedium: 30px;
+	--primaryColor: #000;
+	--secondaryColor: #fff;
 }
 
 .avatar {
@@ -12,6 +16,13 @@
 .App {
 	font-family: var(--fontFamilyDefault);
 	text-align: center;
+}
+
+.app-item {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+	padding: var(--spaceDefault);
 }
 
 .politician-item {
@@ -25,4 +36,15 @@
 
 .politician-item-sub-title {
 	font-size: var(--fontSubTitle);
+}
+
+.politicians-profile-additional {
+	font-size: var(--fontDescription);
+	padding: var(--spaceDefault);
+}
+
+.politicians-profile-header {
+	background-color: var(--primaryColor);
+	color: var(--secondaryColor);
+	padding: var(--spaceDefault);
 }

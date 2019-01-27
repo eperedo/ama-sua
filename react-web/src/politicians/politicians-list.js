@@ -5,7 +5,13 @@ function PoliticiansList(props) {
 	return (
 		<div className="politician-list">
 			{props.politicians.map(politician => {
-				return <PoliticiansItem {...politician} key={politician.webId} />;
+				return (
+					<PoliticiansItem
+						{...politician}
+						onClick={props.onClick}
+						key={politician.webId}
+					/>
+				);
 			})}
 		</div>
 	);
