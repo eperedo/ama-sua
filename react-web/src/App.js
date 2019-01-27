@@ -112,10 +112,10 @@ class App extends Component {
 			politicians: json.hits,
 		});
 	};
-	render() {
-		let view;
+
+	generateView() {
 		if (this.state.currentRouteId === 'home') {
-			view = (
+			return (
 				<Fragment>
 					<AppSearch onSubmit={this.onSubmit} />
 					<PoliticiansList
@@ -125,21 +125,18 @@ class App extends Component {
 				</Fragment>
 			);
 		} else if (this.state.currentRouteId === 'faq') {
-			view = (
-				<Fragment>
-					<AppFaq />
-				</Fragment>
-			);
+			return <AppFaq />;
 		} else {
-			view = (
-				<Fragment>
-					<PoliticiansProfile
-						onClickProfile={this.onClickProfile}
-						{...this.state.currentPolitician}
-					/>
-				</Fragment>
+			return (
+				<PoliticiansProfile
+					onClickProfile={this.onClickProfile}
+					{...this.state.currentPolitician}
+				/>
 			);
 		}
+	}
+	render() {
+		let view = this.generateView();
 		return (
 			<div className="App">
 				{view} <AppNavBar onClickNavBar={this.onClickNavBar} />
