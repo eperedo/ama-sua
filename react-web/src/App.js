@@ -1,8 +1,10 @@
 import React, { Component, Fragment, Suspense } from 'react';
 import AppNavBar from './components/app-nav-bar';
 import AppSearch from './components/app-search';
-import AppFaq from './components/app-faq';
 import './App.css';
+const AppFaq = React.lazy(() =>
+	import('./components/app-faq'),
+);
 const PoliticiansList = React.lazy(() =>
 	import('./politicians/politicians-list'),
 );
@@ -131,7 +133,11 @@ class App extends Component {
 				</Fragment>
 			);
 		} else if (this.state.currentRouteId === 'faq') {
-			return <AppFaq />;
+			return (
+					<Suspense fallback={<div>Cargando...</div>}>
+						<AppFaq />
+					</Suspense>
+);
 		} else {
 			return (
 				<Suspense fallback={<div>Cargando...</div>}>
