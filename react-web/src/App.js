@@ -1,11 +1,13 @@
 import React, { Component, Fragment, Suspense } from 'react';
-import PoliticiansProfile from './politicians/politicians-profile';
 import AppNavBar from './components/app-nav-bar';
 import AppSearch from './components/app-search';
 import AppFaq from './components/app-faq';
 import './App.css';
 const PoliticiansList = React.lazy(() =>
 	import('./politicians/politicians-list'),
+);
+const PoliticiansProfile = React.lazy(() =>
+	import('./politicians/politicians-profile'),
 );
 
 class App extends Component {
@@ -132,10 +134,12 @@ class App extends Component {
 			return <AppFaq />;
 		} else {
 			return (
-				<PoliticiansProfile
-					onClickProfile={this.onClickProfile}
-					{...this.state.currentPolitician}
-				/>
+				<Suspense fallback={<div>Cargando...</div>}>
+					<PoliticiansProfile
+						onClickProfile={this.onClickProfile}
+						{...this.state.currentPolitician}
+					/>
+				</Suspense>
 			);
 		}
 	}

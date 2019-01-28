@@ -21,17 +21,30 @@ function PoliticianProfile(props) {
 	const { place, votes, group } = getAdditionalInformation(props);
 	const items = [
 		{
-			id: 1,
+			text: 'Presente',
+			number: props.totalPr,
+		},
+		{
+			text: 'Ausencias',
+			number: props.totalAu,
+		},
+		{
+			text: 'Ausencias con Licencia Oficial',
+			number: props.totalLo,
+		},
+		{
+			text: 'Ausencias con Licencia Enfermedad',
+			number: props.totalLe,
+		},
+		{
 			text: 'Votos',
 			number: votes,
 		},
 		{
-			id: 2,
 			text: 'Ciudad',
 			number: place,
 		},
 		{
-			id: 3,
 			text: 'Partido',
 			number: group,
 		},

@@ -5,7 +5,7 @@ function AppListItem(props) {
 	return (
 		<div>
 			{props.items.map(item => {
-				return <AppItem {...item} key={item.id} />;
+				return <AppItem {...item} key={item.text} />;
 			})}
 		</div>
 	);
