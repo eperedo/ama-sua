@@ -32,6 +32,7 @@ class App extends Component {
 		currentRouteId: App.getRoute(),
 		currentPolitician: null,
 		politicians: [],
+		statusPoliticians: false,
 	};
 
 	async fetchPoliticians(objectId) {
@@ -94,6 +95,11 @@ class App extends Component {
 		if (!isProfile) {
 			this.observePagination();
 		}
+		setTimeout(() => {
+			this.setState({
+				statusPoliticians: true
+			});
+		}, 2000);
 	}
 
 	onClick = (e, pol) => {
@@ -157,6 +163,7 @@ class App extends Component {
 				<Fragment>
 					<AppSearch onSubmit={this.onSubmit} />
 					<PoliticiansList
+						status={this.state.statusPoliticians}
 						politicians={this.state.politicians}
 						onClick={this.onClick}
 					/>

@@ -8,6 +8,7 @@ function PoliticiansList(props) {
 				return (
 					<PoliticiansItem
 						{...politician}
+						status={props.status}
 						onClick={props.onClick}
 						key={politician.webId}
 					/>

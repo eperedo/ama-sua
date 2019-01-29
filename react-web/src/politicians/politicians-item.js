@@ -12,7 +12,7 @@ function PoliticianItem(props) {
 					{props.fullName}
 				</a>
 			</h2>
-			<AppAvatar avatar={props.avatar} alt={`ama sua ${props.fullName}`} />
+			<AppAvatar status={props.status} avatar={props.avatar} alt={`ama sua ${props.fullName}`} />
 			<p className="politician-item-sub-title">{props.party}</p>
 		</div>
 	);

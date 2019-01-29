@@ -13,7 +13,7 @@ function PoliticiansProfileHeader(props) {
 					◀
 				</span>
 			</div>
-			<AppAvatar alt={`ama sua ${props.fullName}`} avatar={props.avatar} />
+			<AppAvatar status={true} alt={`ama sua ${props.fullName}`} avatar={props.avatar} />
 			<h1>{props.fullName}</h1>
 			<h2>{props.party}</h2>
 		</header>
