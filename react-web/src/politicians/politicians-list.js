@@ -13,6 +13,7 @@ function PoliticiansList(props) {
 					/>
 				);
 			})}
+			<div id="infinite-scroll"></div>
 		</div>
 	);
 }

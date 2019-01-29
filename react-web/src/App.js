@@ -10,6 +10,8 @@ const PoliticiansProfile = React.lazy(() =>
 
 class App extends Component {
 	static APP_NAME = 'Ama Sua';
+	static PAGE = 0;
+	static TOTAL_PAGES = 0;
 	static POLITICIAN_URL = `${process.env.REACT_APP_ALGOLIA_BASE_URL}/${
 		process.env.REACT_APP_ALGOLIA_POLITICIANS_URL
 	}`;
@@ -26,17 +28,19 @@ class App extends Component {
 	}
 
 	state = {
+		search: '',
 		currentRouteId: App.getRoute(),
 		currentPolitician: null,
 		politicians: [],
 	};
 
-	async fetchPoliticians(query) {
-		const url = new URL(App.POLITICIAN_URL);
-		const params = [['hitsPerPage', 130]];
-		if (query) {
-			params.push(['query', query]);
+	async fetchPoliticians(objectId) {
+		const url = new URL(objectId ? `${App.POLITICIAN_URL}/${objectId}` : App.POLITICIAN_URL);
+		const params = [['hitsPerPage', 10]];
+		if (this.state.search) {
+			params.push(['query', this.state.search]);
 		}
+		params.push(['page', App.PAGE]);
 		url.search = new URLSearchParams(params);
 		const response = await fetch(url, {
 			headers: {
@@ -44,7 +48,28 @@ class App extends Component {
 				'X-Algolia-Application-Id': process.env.REACT_APP_ALGOLIA_APP_ID,
 			},
 		});
-		return response.json();
+		const json = await response.json();
+		if (!objectId) {
+			App.TOTAL_PAGES = json.nbPages;
+		}
+		return json;
+	}
+
+	observePagination() {
+		const observer = new IntersectionObserver(async ([entry]) => {
+			if (entry && entry.isIntersecting) {
+				App.PAGE += 1;
+				if (App.PAGE < App.TOTAL_PAGES) {
+					const response = await this.fetchPoliticians();
+					const newPoliticians = this.state.politicians.concat(response.hits);
+					this.setState({
+						politicians: newPoliticians,
+					});
+				}
+			}
+		});
+		const target = document.querySelector('#infinite-scroll');
+		observer.observe(target);
 	}
 
 	async componentDidMount() {
@@ -53,18 +78,22 @@ class App extends Component {
 				currentRouteId: window.location.pathname === '/' ? 'home' : 'profile',
 			});
 		};
+		const isProfile = this.state.currentRouteId === 'profile';
 		const json = await this.fetchPoliticians();
 		let webId;
 		let politician;
-		if (this.state.currentRouteId === 'profile') {
+		if (isProfile) {
 			webId = window.location.pathname.split('/politicians/')[1];
-			politician = json.hits.find(p => p.webId === webId);
+			politician = await this.fetchPoliticians(webId);
 			window.document.title = `${App.APP_NAME} - ${politician.fullName}`;
 		}
 		this.setState({
 			politicians: json.hits,
 			currentPolitician: webId ? politician : null,
 		});
+		if (!isProfile) {
+			this.observePagination();
+		}
 	}
 
 	onClick = (e, pol) => {
@@ -74,7 +103,7 @@ class App extends Component {
 			window.history.pushState(
 				{ id: pol.webId },
 				title,
-				`/politicians/${pol.webId}`,
+				`/politicians/${pol.objectID}`,
 			);
 			this.setState({
 				currentRouteId: 'profile',
@@ -102,16 +131,23 @@ class App extends Component {
 		const title = App.APP_NAME;
 		this.setState({
 			currentRouteId: 'home',
+		}, () => {
+			window.history.pushState(null, title, '/');
+			window.document.title = title;
+			this.observePagination();
 		});
-		window.history.pushState(null, title, '/');
-		window.document.title = title;
 	};
 
-	onSubmit = async (e, search) => {
+	onSubmit = (e, search) => {
 		e.preventDefault();
-		const json = await this.fetchPoliticians(search);
 		this.setState({
-			politicians: json.hits,
+			search,
+		}, async () => {
+			App.PAGE = 0;
+			const json = await this.fetchPoliticians();
+			this.setState({
+				politicians: json.hits,
+			});
 		});
 	};
 
@@ -120,10 +156,10 @@ class App extends Component {
 			return (
 				<Fragment>
 					<AppSearch onSubmit={this.onSubmit} />
-						<PoliticiansList
-							politicians={this.state.politicians}
-							onClick={this.onClick}
-						/>
+					<PoliticiansList
+						politicians={this.state.politicians}
+						onClick={this.onClick}
+					/>
 				</Fragment>
 			);
 		} else if (this.state.currentRouteId === 'faq') {
