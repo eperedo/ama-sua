@@ -1,7 +1,6 @@
 import React, { Component, Fragment, Suspense } from 'react';
 import AppNavBar from './components/app-nav-bar';
 import AppSearch from './components/app-search';
-import './App.css';
 const AppFaq = React.lazy(() => import('./components/app-faq'));
 const PoliticiansList = React.lazy(() =>
 	import('./politicians/politicians-list'),

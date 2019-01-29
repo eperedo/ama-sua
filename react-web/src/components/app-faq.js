@@ -1,5 +1,4 @@
 import React from 'react';
-import './../stylesheets/app-questions.css';
 
 const questions = [
 	{
