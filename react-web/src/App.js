@@ -1,10 +1,9 @@
 import React, { Component, Fragment, Suspense } from 'react';
 import AppNavBar from './components/app-nav-bar';
 import AppSearch from './components/app-search';
-const AppFaq = React.lazy(() => import('./components/app-faq'));
-const PoliticiansList = React.lazy(() =>
-	import('./politicians/politicians-list'),
-);
+import AppFaq from './components/app-faq';
+import PoliticiansList from './politicians/politicians-list';
+
 const PoliticiansProfile = React.lazy(() =>
 	import('./politicians/politicians-profile'),
 );
@@ -121,19 +120,15 @@ class App extends Component {
 			return (
 				<Fragment>
 					<AppSearch onSubmit={this.onSubmit} />
-					<Suspense fallback={<div>Cargando...</div>}>
 						<PoliticiansList
 							politicians={this.state.politicians}
 							onClick={this.onClick}
 						/>
-					</Suspense>
 				</Fragment>
 			);
 		} else if (this.state.currentRouteId === 'faq') {
 			return (
-				<Suspense fallback={<div>Cargando...</div>}>
-					<AppFaq />
-				</Suspense>
+				<AppFaq />
 			);
 		} else {
 			return (
