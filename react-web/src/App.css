@@ -26,16 +26,6 @@
 	padding: var(--spaceDefault);
 }
 
-.app-questions {
-	display: flex;
-	flex-direction: column;
-}
-
-.app-questions-item {
-	padding: var(--spaceDefault);
-	text-align: left;
-}
-
 .app-search-input {
 	border: 1px solid black;
 	padding: var(--spaceDefault);
@@ -66,25 +56,4 @@
 .politician-list {
 	display: flex;
 	flex-direction: column;
-}
-
-.politicians-profile-additional {
-	font-size: var(--fontDescription);
-	padding: var(--spaceDefault);
-}
-
-.politicians-profile-header {
-	background-color: var(--primaryColor);
-	color: var(--secondaryColor);
-	padding: var(--spaceDefault);
-}
-
-.title {
-	font-family: var(--fontFamilyDefault);
-	font-size: var(--fontTitle);
-}
-
-.subtitle {
-	font-family: var(--fontFamilyDefault);
-	font-size: var(--fontSubTitle);
 }

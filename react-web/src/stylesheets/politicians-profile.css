@@ -1,0 +1,5 @@
+.politicians-profile-header {
+	background-color: var(--primaryColor);
+	color: var(--secondaryColor);
+	padding: var(--spaceDefault);
+}

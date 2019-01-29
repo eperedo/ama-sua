@@ -1,0 +1,19 @@
+.app-questions {
+	display: flex;
+	flex-direction: column;
+}
+
+.app-questions-item {
+	padding: var(--spaceDefault);
+	text-align: left;
+}
+
+.title {
+	font-family: var(--fontFamilyDefault);
+	font-size: var(--fontTitle);
+}
+
+.subtitle {
+	font-family: var(--fontFamilyDefault);
+	font-size: var(--fontSubTitle);
+}

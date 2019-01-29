@@ -1,6 +1,7 @@
 import React from 'react';
 import PoliticiansProfileHeader from './politicians-profile-header';
 import AppListItem from '../components/app-list-item';
+import './../stylesheets/politicians-profile.css';
 
 function getAdditionalInformation({ additional }) {
 	let result = {
