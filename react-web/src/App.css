@@ -26,30 +26,6 @@
 	padding: var(--spaceDefault);
 }
 
-.app-navbar {
-	background-color: var(--secondaryColor);
-	bottom: 0;
-	border-top: 1px solid black;
-	padding: var(--spaceDefault);
-	position: sticky;
-}
-
-.app-navbar-list {
-	display: flex;
-	justify-content: center;
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-}
-
-.app-navbar-list-item:not(:last-child) {
-	border-right: 1px solid black;
-}
-
-.app-navbar-list-item {
-	min-width: 100px;
-}
-
 .app-questions {
 	display: flex;
 	flex-direction: column;

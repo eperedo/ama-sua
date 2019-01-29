@@ -2,9 +2,7 @@ import React, { Component, Fragment, Suspense } from 'react';
 import AppNavBar from './components/app-nav-bar';
 import AppSearch from './components/app-search';
 import './App.css';
-const AppFaq = React.lazy(() =>
-	import('./components/app-faq'),
-);
+const AppFaq = React.lazy(() => import('./components/app-faq'));
 const PoliticiansList = React.lazy(() =>
 	import('./politicians/politicians-list'),
 );
@@ -134,10 +132,10 @@ class App extends Component {
 			);
 		} else if (this.state.currentRouteId === 'faq') {
 			return (
-					<Suspense fallback={<div>Cargando...</div>}>
-						<AppFaq />
-					</Suspense>
-);
+				<Suspense fallback={<div>Cargando...</div>}>
+					<AppFaq />
+				</Suspense>
+			);
 		} else {
 			return (
 				<Suspense fallback={<div>Cargando...</div>}>
@@ -150,7 +148,7 @@ class App extends Component {
 		}
 	}
 	render() {
-		let view = this.generateView();
+		const view = this.generateView();
 		return (
 			<div className="App">
 				{view} <AppNavBar onClickNavBar={this.onClickNavBar} />
