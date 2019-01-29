@@ -1,3 +1,9 @@
+.back-arrow {
+	cursor: pointer;
+	font-size: var(--fontHeader);
+	position: absolute;
+}
+
 .politicians-profile-header {
 	background-color: var(--primaryColor);
 	color: var(--secondaryColor);
