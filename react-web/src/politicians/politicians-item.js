@@ -12,7 +12,11 @@ function PoliticianItem(props) {
 					{props.fullName}
 				</a>
 			</h2>
-			<AppAvatar webId={props.webId} avatar={props.avatar} alt={`ama sua ${props.fullName}`} />
+			<AppAvatar
+				webId={props.webId}
+				avatar={props.cloudinary.url}
+				alt={`ama sua ${props.fullName}`}
+			/>
 			<p className="politician-item-sub-title">{props.party}</p>
 		</div>
 	);
