@@ -56,6 +56,25 @@ class App extends Component {
 		return json;
 	}
 
+	lazyLoadImage(politicians) {
+		politicians.forEach((politician) => {
+			const currentAvatar = document.querySelector(`img#avatar-${politician.webId}`);
+			const options = {
+        root: null,
+        threshold: '0'
+      };
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						currentAvatar.src = currentAvatar.dataset.url;
+						observer.unobserve(currentAvatar);
+					}
+				});
+			}, options);
+			observer.observe(currentAvatar);
+		});
+	}
+
 	observePagination() {
 		const observer = new IntersectionObserver(async ([entry]) => {
 			if (entry && entry.isIntersecting) {
@@ -65,6 +84,8 @@ class App extends Component {
 					const newPoliticians = this.state.politicians.concat(response.hits);
 					this.setState({
 						politicians: newPoliticians,
+					}, () => {
+						this.lazyLoadImage(this.state.politicians);
 					});
 				}
 			}
@@ -91,6 +112,10 @@ class App extends Component {
 		this.setState({
 			politicians: json.hits,
 			currentPolitician: webId ? politician : null,
+		}, () => {
+			if (!isProfile) {
+				this.lazyLoadImage(this.state.politicians);
+			}
 		});
 		if (!isProfile) {
 			this.observePagination();
@@ -140,6 +165,7 @@ class App extends Component {
 		}, () => {
 			window.history.pushState(null, title, '/');
 			window.document.title = title;
+			this.lazyLoadImage(this.state.politicians);
 			this.observePagination();
 		});
 	};
@@ -153,6 +179,8 @@ class App extends Component {
 			const json = await this.fetchPoliticians();
 			this.setState({
 				politicians: json.hits,
+			}, () => {
+				this.lazyLoadImage(this.state.politicians);
 			});
 		});
 	};

@@ -1,12 +1,18 @@
 import React from 'react';
 
 function AppAvatar(props) {
-	const view = props.status ? <img
+	const view = props.noLazy ? <img
 	className="avatar"
 	width="150"
 	height="136"
 	src={props.avatar}
-	alt={props.alt}	/> : 'Cargando imagen...';
+	alt={props.alt}	/>  : <img
+	id={`avatar-${props.webId}`}
+	className="avatar"
+	width="150"
+	height="136"
+	data-url={props.avatar}
+	alt={props.alt}	/>;
 	return view;
 }
 
