@@ -36,7 +36,9 @@ class App extends Component {
 	};
 
 	async fetchPoliticians(objectId) {
-		const url = new URL(objectId ? `${App.POLITICIAN_URL}/${objectId}` : App.POLITICIAN_URL);
+		const url = new URL(
+			objectId ? `${App.POLITICIAN_URL}/${objectId}` : App.POLITICIAN_URL,
+		);
 		const params = [['hitsPerPage', 10]];
 		if (this.state.search) {
 			params.push(['query', this.state.search]);
@@ -57,13 +59,15 @@ class App extends Component {
 	}
 
 	lazyLoadImage(politicians) {
-		politicians.forEach((politician) => {
-			const currentAvatar = document.querySelector(`img#avatar-${politician.webId}`);
+		politicians.forEach(politician => {
+			const currentAvatar = document.querySelector(
+				`img#avatar-${politician.webId}`,
+			);
 			const options = {
-        root: null,
-        threshold: '0'
-      };
-			const observer = new IntersectionObserver((entries) => {
+				root: null,
+				threshold: 0,
+			};
+			const observer = new IntersectionObserver(entries => {
 				entries.forEach(entry => {
 					if (entry.isIntersecting) {
 						currentAvatar.src = currentAvatar.dataset.url;
@@ -76,20 +80,26 @@ class App extends Component {
 	}
 
 	observePagination() {
-		const observer = new IntersectionObserver(async ([entry]) => {
-			if (entry && entry.isIntersecting) {
-				App.PAGE += 1;
-				if (App.PAGE < App.TOTAL_PAGES) {
-					const response = await this.fetchPoliticians();
-					const newPoliticians = this.state.politicians.concat(response.hits);
-					this.setState({
-						politicians: newPoliticians,
-					}, () => {
-						this.lazyLoadImage(this.state.politicians);
-					});
+		const observer = new IntersectionObserver(
+			async ([entry]) => {
+				if (entry && entry.isIntersecting) {
+					App.PAGE += 1;
+					if (App.PAGE < App.TOTAL_PAGES) {
+						const response = await this.fetchPoliticians();
+						const newPoliticians = this.state.politicians.concat(response.hits);
+						this.setState(
+							{
+								politicians: newPoliticians,
+							},
+							() => {
+								this.lazyLoadImage(this.state.politicians);
+							},
+						);
+					}
 				}
-			}
-		});
+			},
+			{ threshold: 0 },
+		);
 		const target = document.querySelector('#infinite-scroll');
 		observer.observe(target);
 	}
@@ -109,20 +119,23 @@ class App extends Component {
 			politician = await this.fetchPoliticians(webId);
 			window.document.title = `${App.APP_NAME} - ${politician.fullName}`;
 		}
-		this.setState({
-			politicians: json.hits,
-			currentPolitician: webId ? politician : null,
-		}, () => {
-			if (!isProfile) {
-				this.lazyLoadImage(this.state.politicians);
-			}
-		});
+		this.setState(
+			{
+				politicians: json.hits,
+				currentPolitician: webId ? politician : null,
+			},
+			() => {
+				if (!isProfile) {
+					this.lazyLoadImage(this.state.politicians);
+				}
+			},
+		);
 		if (!isProfile) {
 			this.observePagination();
 		}
 		setTimeout(() => {
 			this.setState({
-				statusPoliticians: true
+				statusPoliticians: true,
 			});
 		}, 2000);
 	}
@@ -160,29 +173,38 @@ class App extends Component {
 
 	onClickProfile = () => {
 		const title = App.APP_NAME;
-		this.setState({
-			currentRouteId: 'home',
-		}, () => {
-			window.history.pushState(null, title, '/');
-			window.document.title = title;
-			this.lazyLoadImage(this.state.politicians);
-			this.observePagination();
-		});
+		this.setState(
+			{
+				currentRouteId: 'home',
+			},
+			() => {
+				window.history.pushState(null, title, '/');
+				window.document.title = title;
+				this.lazyLoadImage(this.state.politicians);
+				this.observePagination();
+			},
+		);
 	};
 
 	onSubmit = (e, search) => {
 		e.preventDefault();
-		this.setState({
-			search,
-		}, async () => {
-			App.PAGE = 0;
-			const json = await this.fetchPoliticians();
-			this.setState({
-				politicians: json.hits,
-			}, () => {
-				this.lazyLoadImage(this.state.politicians);
-			});
-		});
+		this.setState(
+			{
+				search,
+			},
+			async () => {
+				App.PAGE = 0;
+				const json = await this.fetchPoliticians();
+				this.setState(
+					{
+						politicians: json.hits,
+					},
+					() => {
+						this.lazyLoadImage(this.state.politicians);
+					},
+				);
+			},
+		);
 	};
 
 	generateView() {
@@ -198,9 +220,7 @@ class App extends Component {
 				</Fragment>
 			);
 		} else if (this.state.currentRouteId === 'faq') {
-			return (
-				<AppFaq />
-			);
+			return <AppFaq />;
 		} else {
 			return (
 				<Suspense fallback={<div>Cargando...</div>}>
