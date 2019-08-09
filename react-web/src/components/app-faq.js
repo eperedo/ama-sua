@@ -10,7 +10,7 @@ const questions = [
 		id: 1,
 		text: 'La información está actualizada?',
 		answer:
-			'La información está actualizada al 27 de enero del 2018 y comprende todo el periodo 2016-2021 a excepción de las faltas que solo se ha considerado los datos del pleno de Marzo-Mayo 2018',
+			'La información está actualizada al 8 de diciembre del 2018',
 	},
 	{
 		id: 3,
